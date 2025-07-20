@@ -1,5 +1,6 @@
 # 🚀 Microsoft Rewards Farmer
 
+![Demo de Microsoft Rewards Farmer](https://github.com/VhubCash/Mincrosoft_Rewards_Farmer/blob/main/ss.png?raw=true)
 _Automate your Microsoft Rewards Bing searches effortlessly!_
 
 ---
