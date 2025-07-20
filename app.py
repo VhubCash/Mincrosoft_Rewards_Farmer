@@ -14,43 +14,43 @@ from colorama import init, Fore, Back, Style
 import ctypes
 import sys
 
-# Obtener el manejador (handle) de la consola
+
 kernel32 = ctypes.WinDLL('kernel32')
 user32 = ctypes.WinDLL('user32')
 hWnd = kernel32.GetConsoleWindow()
 
-# Constantes de estilo
-GWL_STYLE = -16
-WS_SIZEBOX = 0x00040000  # Estilo que permite redimensionar
-WS_MAXIMIZEBOX = 0x00010000  # Botón de maximizar
 
-# Obtener estilo actual
+GWL_STYLE = -16
+WS_SIZEBOX = 0x00040000  
+WS_MAXIMIZEBOX = 0x00010000  
+
+
 style = user32.GetWindowLongW(hWnd, GWL_STYLE)
 
-# Eliminar los estilos de redimensionar y maximizar
+
 style &= ~WS_SIZEBOX
 style &= ~WS_MAXIMIZEBOX
 
-# Aplicar los nuevos estilos
+
 user32.SetWindowLongW(hWnd, GWL_STYLE, style)
 
-# Actualizar la ventana para aplicar los cambios
+
 user32.SetWindowPos(hWnd, None, 0, 0, 0, 0, 0x0027)
-# Inicializar colorama
+
 init(autoreset=True)
 
-# --- DEFINICIÓN DE COLORES MODERNOS ---
-# Una paleta más suave y "cool"
-COLOR_PRIMARY = Fore.CYAN  # Para bordes, títulos generales
-COLOR_ACCENT = Fore.MAGENTA  # Para números de menú, énfasis importante
-COLOR_INFO = Fore.BLUE  # Para mensajes informativos
-COLOR_SUCCESS = Fore.GREEN # Para operaciones exitosas
-COLOR_WARNING = Fore.YELLOW # Para advertencias o prompts
-COLOR_ERROR = Fore.RED # Para errores
-COLOR_TEXT = Fore.WHITE # Texto general
-COLOR_HIGHLIGHT = Style.BRIGHT # Para resaltar texto
 
-# Fondos de progreso (sutiles pero visibles)
+
+COLOR_PRIMARY = Fore.CYAN  
+COLOR_ACCENT = Fore.MAGENTA  
+COLOR_INFO = Fore.BLUE  
+COLOR_SUCCESS = Fore.GREEN 
+COLOR_WARNING = Fore.YELLOW 
+COLOR_ERROR = Fore.RED 
+COLOR_TEXT = Fore.WHITE
+COLOR_HIGHLIGHT = Style.BRIGHT 
+
+
 BACK_PROGRESS_PC = Back.BLUE
 BACK_PROGRESS_MOBILE = Back.MAGENTA
 
@@ -69,10 +69,10 @@ class UltimateRewardsAutomator:
         self.total_mobile_searches = 20
         self.user_agent_mobile = "Mozilla/5.0 (Linux; Android 10; SM-G981B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.162 Mobile Safari/537.36 EdgA/46.1.2.5140"
         self.is_headless = False
-        self.accounts_dir = os.path.join(os.getcwd(), "accounts") # Directorio para perfiles de cuentas
-        self.current_account_name = None # Nombre de la cuenta actual en ejecución
+        self.accounts_dir = os.path.join(os.getcwd(), "accounts") 
+        self.current_account_name = None 
 
-        self.ensure_accounts_dir() # Asegura que el directorio de cuentas exista
+        self.ensure_accounts_dir() 
 
     def ensure_accounts_dir(self):
         """Asegura que el directorio de cuentas exista."""
@@ -83,7 +83,7 @@ class UltimateRewardsAutomator:
 
     def print_header(self):
         """Muestra el encabezado principal del programa."""
-        os.system('cls' if os.name == 'nt' else 'clear') # Limpia la consola
+        os.system('cls' if os.name == 'nt' else 'clear') 
         print(COLOR_ACCENT + r"""
                            ███▄ ▄███▓  ██████     ██▀███  ▓█████  █     █░ ▄▄▄       ██▀███  ▓█████▄   ██████
                           ▓██▒▀█▀ ██▒▒██    ▒    ▓██ ▒ ██▒▓█   ▀ ▓█░ █ ░█░▒████▄    ▓██ ▒ ██▒▒██▀ ██▌▒██    ▒
@@ -98,7 +98,7 @@ class UltimateRewardsAutomator:
         """ + Style.RESET_ALL)
         print(COLOR_SUCCESS + "   Vehud Developer" + Style.RESET_ALL)
         print(COLOR_SUCCESS + "  ==================" + Style.RESET_ALL)
-        print("\n") # Espacio para claridad
+        print("\n") 
 
     def show_menu(self):
         """Muestra el menú de opciones principal."""
@@ -168,11 +168,11 @@ class UltimateRewardsAutomator:
                     time.sleep(2)
                 self.login_to_bing(account_name)
                 input(COLOR_WARNING + "\nPresiona Enter para continuar..." + Style.RESET_ALL)
-                return [] # No devuelve cuentas para ejecución, solo gestiona
+                return [] 
             elif choice == '2':
                 return self._show_run_accounts_selection()
             elif choice == '3':
-                return [] # Vuelve al menú principal sin seleccionar cuentas
+                return [] 
             else:
                 print(COLOR_ERROR + "× Opción inválida. Por favor, ingresa un número entre 1 y 3.")
                 time.sleep(1)
@@ -216,7 +216,7 @@ class UltimateRewardsAutomator:
                             selected_indices.append(idx)
                         else:
                             print(COLOR_ERROR + f"× Número de cuenta '{part}' inválido. Por favor, intenta de nuevo.")
-                            selected_indices = [] # Reset para reintentar
+                            selected_indices = [] 
                             break
                 except ValueError:
                     print(COLOR_ERROR + "× Entrada inválida. Por favor, usa números separados por coma (ej. '1,3') o escribe 'all'.")
@@ -248,7 +248,7 @@ class UltimateRewardsAutomator:
         print(COLOR_WARNING + "║ " + COLOR_TEXT + "recompensas (rewards.bing.com), " + COLOR_ACCENT + "CIERRA" + COLOR_TEXT + " la ventana." + COLOR_WARNING + "     " + COLOR_WARNING + "║")
         print(COLOR_WARNING + "║ " + COLOR_TEXT + "¡Las credenciales se guardarán automáticamente para futuros usos! " + COLOR_WARNING + "║")
         print(COLOR_WARNING + "╚═══════════════════════════════════════════════════════════╝\n")
-        time.sleep(3) # Da tiempo al usuario para leer
+        time.sleep(3) 
 
         temp_driver = None
         try:
@@ -267,14 +267,14 @@ class UltimateRewardsAutomator:
             temp_driver.get("https://rewards.bing.com/")
             print(COLOR_SUCCESS + "✓ Navegador abierto. Esperando que inicies sesión y cierres la ventana manualmente...")
 
-            # Keep the browser open until the user closes it manually
+            
             while True:
                 try:
-                    # Try to perform a simple operation to check if driver is still alive
+                    
                     temp_driver.current_url
                     time.sleep(1)
                 except:
-                    # Driver likely closed by user
+                    
                     print(COLOR_SUCCESS + "✓ Navegador cerrado. ¡Sesión guardada correctamente!")
                     break
 
@@ -285,7 +285,7 @@ class UltimateRewardsAutomator:
         finally:
             if temp_driver:
                 try:
-                    temp_driver.quit() # Asegurarse de que el driver se cierra si aún está abierto
+                    temp_driver.quit() 
                 except:
                     pass
 
@@ -312,7 +312,7 @@ class UltimateRewardsAutomator:
         print(COLOR_ERROR + "× ERROR: No se encontró 'msedgedriver.exe'.")
         print(COLOR_ERROR + "  Asegúrate de que esté en la misma carpeta que este script o en tu PATH del sistema.")
         print(COLOR_ERROR + "  Puedes descargarlo desde: https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/")
-        sys.exit(1) # Salir si no se encuentra el driver
+        sys.exit(1) 
 
 
     def setup_driver(self, mobile=False, account_name=None):
@@ -336,15 +336,15 @@ class UltimateRewardsAutomator:
         if self.is_headless:
             options.add_argument("--headless=new")
             options.add_argument("--disable-gpu")
-            options.add_argument("--log-level=3") # Suprime logs innecesarios en headless
+            options.add_argument("--log-level=3") 
 
         if account_name:
             profile_path = os.path.join(self.accounts_dir, account_name)
             if not os.path.exists(profile_path):
-                os.makedirs(profile_path) # Asegurarse de que el directorio del perfil exista
+                os.makedirs(profile_path) 
             options.add_argument(f"user-data-dir={profile_path}")
         else:
-            # Esto no debería ejecutarse si el flujo de selección de cuenta es correcto
+            
             print(COLOR_ERROR + "¡ADVERTENCIA! No se especificó un nombre de cuenta para el driver. Usando perfil genérico.")
             profile_path = os.path.join(os.getcwd(), "edge_profile_mobile" if mobile else "edge_profile_pc")
             options.add_argument(f"user-data-dir={profile_path}")
@@ -387,14 +387,14 @@ class UltimateRewardsAutomator:
         search_set = self.mobile_completed_searches if mobile else self.completed_searches
 
         attempts = 0
-        max_attempts = 100 # Para evitar bucles infinitos si la lista de términos es pequeña
+        max_attempts = 100 
         while attempts < max_attempts:
             term = random.choice(term_types)()
             if term not in search_set:
                 search_set.add(term)
                 return term
             attempts += 1
-        # Si no se encuentra un término único después de muchos intentos, retornar uno aleatorio
+        
         return random.choice(term_types)()
 
 
@@ -407,16 +407,15 @@ class UltimateRewardsAutomator:
             if mobile:
                 driver.get(f"https://www.bing.com/search?q={term}&form=QBLH&qs=MB")
                 try:
-                    # Espera más general para asegurar que la página cargó algo
+
                     wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-                    # Opcional: verificar un elemento más específico de resultados móviles si sabes su CSS Selector
-                    # wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "ol#b_results")))
+
                 except:
                     print(COLOR_WARNING + "\n  ! Advertencia: No se pudo verificar la carga de la página móvil o el diseño esperado.")
-                    self.adjust_mobile_settings() # Reintentar ajuste
+                    self.adjust_mobile_settings() 
                     return False
                 self.mobile_searches_count += 1
-                wait_time = random.uniform(2.5, 5.0) # Ajuste de tiempo para móvil (un poco más largo)
+                wait_time = random.uniform(2.5, 5.0) 
 
             else: # PC
                 driver.get("https://www.bing.com/")
@@ -425,7 +424,7 @@ class UltimateRewardsAutomator:
                 search_input.send_keys(term)
                 search_input.send_keys(Keys.ENTER)
                 self.searches_count += 1
-                wait_time = random.uniform(2.0, 4.0) # Ajuste de tiempo para PC
+                wait_time = random.uniform(2.0, 4.0) 
 
             time.sleep(wait_time)
             return True
@@ -455,8 +454,8 @@ class UltimateRewardsAutomator:
         """Ejecuta búsquedas de PC optimizadas."""
         print(COLOR_INFO + f"\n[INFO] Iniciando búsquedas de PC para '{COLOR_ACCENT + self.current_account_name + COLOR_INFO}'..." + Style.RESET_ALL)
         start_time = time.time()
-        self.searches_count = 0 # Reiniciar contador para cada ejecución
-        self.completed_searches.clear() # Limpiar términos completados
+        self.searches_count = 0 
+        self.completed_searches.clear() 
 
         try:
             self.driver, self.wait = self.setup_driver(mobile=False, account_name=self.current_account_name)
@@ -464,7 +463,7 @@ class UltimateRewardsAutomator:
             while self.searches_count < self.total_pc_searches:
                 term = self.generate_random_term(mobile=False)
 
-                # Usar colores modernos para el progreso
+                
                 sys.stdout.write(
                     f"\r{COLOR_TEXT + BACK_PROGRESS_PC} Búsquedas PC: {self.searches_count + 1:2d}/{self.total_pc_searches:2d} "
                     f"{COLOR_TEXT + BACK_PROGRESS_PC}| Término: '{term:<30}' {Style.RESET_ALL}" # Alinear para que no salte el texto
@@ -472,19 +471,19 @@ class UltimateRewardsAutomator:
                 sys.stdout.flush()
 
                 if self.perform_search(term, mobile=False):
-                    pass # La búsqueda fue exitosa, el contador se incrementó en perform_search
+                    pass 
                 else:
                     print(COLOR_WARNING + "  ! Reintentando la búsqueda de PC...")
-                    time.sleep(2) # Pequeña pausa antes de reintentar
-                    # No incrementar searches_count aquí si falló y vamos a reintentar
-                    continue # Volver a intentar la misma búsqueda
+                    time.sleep(2) 
+                    
+                    continue 
 
-                if self.searches_count < self.total_pc_searches: # Solo si no es la última búsqueda
-                    delay = random.uniform(3.0, 6.0) # Mantener ajuste para más fiabilidad
+                if self.searches_count < self.total_pc_searches: 
+                    delay = random.uniform(3.0, 6.0) 
                     time.sleep(delay)
 
             total_time = time.time() - start_time
-            # Limpia la línea de progreso al finalizar
+            
             print(f"\r{COLOR_SUCCESS}✓ Búsquedas PC completadas para '{COLOR_ACCENT + self.current_account_name + COLOR_SUCCESS}': {self.searches_count}/{self.total_pc_searches}{' '*20}")
             print(COLOR_WARNING + f"  Tiempo total en PC: {total_time:.1f} segundos")
 
@@ -502,8 +501,8 @@ class UltimateRewardsAutomator:
         """Ejecuta búsquedas móviles con verificación mejorada."""
         print(COLOR_INFO + f"\n[INFO] Iniciando búsquedas móviles para '{COLOR_ACCENT + self.current_account_name + COLOR_INFO}'..." + Style.RESET_ALL)
         start_time = time.time()
-        self.mobile_searches_count = 0 # Reiniciar contador para cada ejecución
-        self.mobile_completed_searches.clear() # Limpiar términos completados
+        self.mobile_searches_count = 0 
+        self.mobile_completed_searches.clear() 
 
         try:
             self.mobile_driver, self.mobile_wait = self.setup_driver(mobile=True, account_name=self.current_account_name)
@@ -513,32 +512,32 @@ class UltimateRewardsAutomator:
             if "mobile" not in self.mobile_driver.current_url.lower() and not self.is_headless:
                 print(COLOR_WARNING + "  ! Ajustando configuración para móvil (la URL no parece móvil)...")
                 self.adjust_mobile_settings()
-                time.sleep(1) # Dar tiempo para el ajuste
+                time.sleep(1) 
 
             while self.mobile_searches_count < self.total_mobile_searches:
                 term = self.generate_random_term(mobile=True)
 
-                # Usar colores modernos para el progreso
+                
                 sys.stdout.write(
                     f"\r{COLOR_TEXT + BACK_PROGRESS_MOBILE} Búsquedas Móvil: {self.mobile_searches_count + 1:2d}/{self.total_mobile_searches:2d} "
-                    f"{COLOR_TEXT + BACK_PROGRESS_MOBILE}| Término: '{term:<30}' {Style.RESET_ALL}" # Alinear
+                    f"{COLOR_TEXT + BACK_PROGRESS_MOBILE}| Término: '{term:<30}' {Style.RESET_ALL}" 
                 )
                 sys.stdout.flush()
 
                 if self.perform_search(term, mobile=True):
-                    pass # La búsqueda fue exitosa, el contador se incrementó en perform_search
+                    pass 
                 else:
                     print(COLOR_WARNING + "  ! Reintentando la búsqueda móvil...")
-                    time.sleep(2) # Pequeña pausa antes de reintentar
-                    self.adjust_mobile_settings() # Reintentar ajuste si falló
-                    continue # Volver a intentar la misma búsqueda
+                    time.sleep(2) 
+                    self.adjust_mobile_settings()
+                    continue 
 
-                if self.mobile_searches_count < self.total_mobile_searches: # Solo si no es la última búsqueda
-                    delay = random.uniform(4.0, 8.0) # Mantener ajuste para más fiabilidad
+                if self.mobile_searches_count < self.total_mobile_searches: 
+                    delay = random.uniform(4.0, 8.0) 
                     time.sleep(delay)
 
             total_time = time.time() - start_time
-            # Limpia la línea de progreso al finalizar
+            
             print(f"\r{COLOR_SUCCESS}✓ Búsquedas móviles completadas para '{COLOR_ACCENT + self.current_account_name + COLOR_SUCCESS}': {self.mobile_searches_count}/{self.total_mobile_searches}{' '*20}")
             print(COLOR_WARNING + f"  Tiempo total en Móvil: {total_time:.1f} segundos")
 
@@ -554,20 +553,20 @@ class UltimateRewardsAutomator:
 
     def run_for_account(self, account_name, mode):
         """Ejecuta las búsquedas para una cuenta específica y modo dado."""
-        self.current_account_name = account_name # Establece la cuenta actual
-        # Los contadores y sets de búsquedas se reinician dentro de run_pc_searches y run_mobile_searches
+        self.current_account_name = account_name 
+        
 
         print(COLOR_PRIMARY + f"\n\n╔═══════════════════════════════════════════════╗")
         print(COLOR_PRIMARY + f"║ {COLOR_TEXT + COLOR_HIGHLIGHT}INICIANDO BÚSQUEDAS PARA LA CUENTA:{COLOR_ACCENT + Style.BRIGHT} {account_name.upper():<16} {COLOR_PRIMARY}║")
         print(COLOR_PRIMARY + f"╚═══════════════════════════════════════════════╝\n" + Style.RESET_ALL)
         account_start_time = time.time()
-        time.sleep(1) # Pausa para que el usuario vea el cambio de cuenta
+        time.sleep(1) 
 
         try:
-            if mode in [1, 3]:  # PC or both
+            if mode in [1, 3]:  
                 self.run_pc_searches()
 
-            if mode in [2, 3]:  # Mobile or both
+            if mode in [2, 3]: 
                 self.run_mobile_searches()
 
         except KeyboardInterrupt:
@@ -578,26 +577,26 @@ class UltimateRewardsAutomator:
             print(COLOR_PRIMARY + f"║ {COLOR_TEXT}Resumen para '{COLOR_ACCENT + self.current_account_name + COLOR_TEXT}':{' '*(29 - len(self.current_account_name))}║")
             print(COLOR_PRIMARY + f"║ {COLOR_SUCCESS}  Tiempo total de ejecución: {account_total_time:.1f} segundos{' '*(11 if account_total_time < 100 else 10)}║")
             print(COLOR_PRIMARY + f"╚═══════════════════════════════════════════════╝" + Style.RESET_ALL)
-            time.sleep(2) # Pausa antes de pasar a la siguiente cuenta o finalizar
+            time.sleep(2) 
 
     def run(self):
         """Ejecuta el automator según la selección del usuario."""
         while True:
             choice = self.show_menu()
 
-            if choice == 6: # Opción de Salir
+            if choice == 6: 
                 print(COLOR_WARNING + "\nSaliendo del programa... ¡Hasta pronto!")
                 print(COLOR_PRIMARY + "==============================================\n")
                 time.sleep(1)
                 return
-            elif choice == 4: # Opciones Avanzadas
+            elif choice == 4: 
                 self.configure_advanced_options()
                 continue
-            elif choice == 5: # Gestionar Cuentas
+            elif choice == 5: 
                 self.select_account_menu()
-                continue # Volver al menú principal después de gestionar cuentas
+                continue 
 
-            # Si la opción es 1, 2 o 3 (búsquedas), pedir selección de cuenta
+           
             selected_accounts = self._show_run_accounts_selection()
             if not selected_accounts:
                 print(COLOR_WARNING + "\n! No se seleccionaron cuentas para ejecutar. Volviendo al menú principal.")
